@@ -13,7 +13,7 @@ async def verse_generation(text):
         model="gpt-3.5-turbo", 
         messages=[{
             "role": "user", 
-            "content": f"Crie um verso que rime de até 3 linhas utilizando a seguinte mensagem: {text}"
+            "content": f"Create a verse that rhymes up to 3 lines using the following message: {text}"
         }]
     )
 
@@ -33,6 +33,7 @@ async def db_connection():
 # This function persists the messages in the database when called
 async def store_message(msg):
     connection = await db_connection()
+
     async with connection.transaction():
         await connection.execute(
             'INSERT INTO datacollector_message (id, author, content, timestamp, channel) VALUES ($1, $2, $3, $4, $5)',
@@ -58,7 +59,6 @@ class Bot(commands.Bot):
 
     async def event_message(self, message):
         message.content = await verse_generation(message.content)
-        print(message.content)
         await store_message(message)
 
 bot = Bot()
