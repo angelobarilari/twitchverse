@@ -11,7 +11,7 @@ class MessageView(generics.ListAPIView):
     queryset = Message.objects.all()
 
 class MessageDetailView(APIView, PageNumberPagination):
-    page_size = 10
+    page_size = 20
 
     def get(self, request: Request, author: str):
         messages = get_list_or_404(Message, author=author)
