@@ -8,7 +8,7 @@ from rest_framework.pagination import PageNumberPagination
 
 class MessageView(generics.ListAPIView):
     serializer_class = MessageSerializer
-    queryset = Message.objects
+    queryset = Message.objects.all()
 
 class MessageDetailView(APIView, PageNumberPagination):
     page_size = 10
