@@ -3,14 +3,21 @@ from .serializers import MessageSerializer
 from datacollector.models import Message
 from rest_framework import generics
 from django.shortcuts import get_list_or_404
-from rest_framework.views import APIView, Request, Response, status
+from rest_framework.views import APIView, Request
+from rest_framework.pagination import PageNumberPagination
 
-class MessageView(generics.ListCreateAPIView):
+class MessageView(generics.ListAPIView):
     serializer_class = MessageSerializer
-    queryset = Message.objects
+    queryset = Message.objects.all()
 
-class MessageDetailView(APIView):
+class MessageDetailView(APIView, PageNumberPagination):
+    page_size = 10
+
     def get(self, request: Request, author: str):
         messages = get_list_or_404(Message, author=author)
+
+        messages = self.paginate_queryset(messages, request, view=self)
+
         serializer = MessageSerializer(messages, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+
+        return self.get_paginated_response(serializer.data)
