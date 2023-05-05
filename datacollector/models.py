@@ -9,5 +9,6 @@ class Message(models.Model):
     )
     author = models.CharField(max_length=255)
     channel = models.CharField(max_length=255)
-    content = models.TextField()
+    original_message = models.TextField()
+    generated_verse = models.TextField()
     timestamp = models.DateTimeField()
