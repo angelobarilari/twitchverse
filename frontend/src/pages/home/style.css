@@ -1,0 +1,14 @@
+#chat-box {
+    display: flex;
+    flex-direction: column;
+}
+
+#chat {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#request-messages-btn {
+    margin-bottom: 10px;
+}

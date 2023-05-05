@@ -17,6 +17,8 @@ export default createGlobalStyle`
         --grey-4: rgb(53, 53, 59);
         --white: #fff;
         --black: #000;
+        --purple-1: rgb(169, 112, 255);
+        --purple-2: rgb(119, 44, 232);
     }
 
     body {

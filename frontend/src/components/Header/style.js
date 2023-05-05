@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const StyledHeader = styled.header`
   width: 100%;
@@ -15,6 +15,8 @@ export const StyledHeader = styled.header`
   box-shadow: 0px 0px 5px 1px var(--black);
   background-color: var(--grey-2);
 
+  border-radius: 5px;
+
   #header-container {
     background-color: var(--grey-2);
     width: 80%;
@@ -23,16 +25,5 @@ export const StyledHeader = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  @media screen and (max-width: 630px) {
-    #menu-icon {
-      display: flex;
-      font-size: 20px;
-    }
-  }
-
-  @media (min-width: 631px) {
-    
   }
 `
