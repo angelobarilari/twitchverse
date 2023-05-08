@@ -1,14 +1,19 @@
-#chat-box {
+.chat-box {
     display: flex;
     flex-direction: column;
 }
 
-#chat {
+#second-chat-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
 }
 
-#request-messages-btn {
+.request-messages-btn {
     margin-bottom: 10px;
 }
