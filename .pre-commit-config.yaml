@@ -9,10 +9,6 @@ repos:
           - --fix
           - --config
           - frontend/.eslintrc.yml
-        # args:
-        #   - eslint
-        #   - '--fix'
-        #   - .
         language: node
         types: [javascript]
         pass_filenames: false
