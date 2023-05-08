@@ -10,35 +10,17 @@ import "./style.css"
 
 function Home() {
     const { messages, setMessages } = useContext(MessageDataContext)
-    // const message = [
-    //     {   
-    //         author: "DarionPK",
-    //         original_message: "another random message, big text message, big big",
-    //         generated_verse: "another generated verse",
-    //         timestamp: "2023-05-04T23:50:36.894000Z",
-    //         color: "#00FF7F"
-    //     },
-    //     {   
-    //         author: "DarionPK",
-    //         original_message: "random message, random message, random message, random message, random message, random message, random message, random message, ",
-    //         generated_verse: "random generated verse",
-    //         timestamp: "2023-05-05T23:50:36.894000Z",
-    //         color: "#00FF7F"
-    //     },
-
-    // ]
 
     const messagesData = () => {
         apiUrl.get()
              .then(res => {
-                console.log(res.data.results)
                 setMessages(messages.concat(res.data.results))
             })
              .catch(err => {
                 console.log(err)
             })
     }
-
+    
     return (
         <>  
             <Header />
@@ -55,7 +37,7 @@ function Home() {
                         id="chat"   
                         minWidth="90%"
                         shadow="unset">
-                        
+
                         {messages?.map((message, index) => 
                             <Message 
                                 author={message.author}
@@ -63,7 +45,6 @@ function Home() {
                                 generated_verse={message.generated_verse}
                                 timestamp={message.timestamp}
                                 color={message.color}
-                                background="aqua"
                                 key={index} />
                         )}
                     </Box>

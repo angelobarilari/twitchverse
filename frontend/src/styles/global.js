@@ -15,6 +15,8 @@ export default createGlobalStyle`
         --grey-2: rgb(24, 24, 27);
         --grey-3: rgb(47, 47, 53);
         --grey-4: rgb(53, 53, 59);
+        --grey-5: rgb(61, 61, 64);
+        --grey-6: rgb(114, 114, 120);
         --white: #fff;
         --black: #000;
         --purple-1: rgb(169, 112, 255);
