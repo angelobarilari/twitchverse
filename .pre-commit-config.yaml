@@ -24,11 +24,6 @@ repos:
         types: [python]
         pass_filenames: false
         files: backend/
-        exclude: backend/migrations/
-          # - "backend/staticfiles/"
-          # - "backend/venv/"
-          # - "backend/*.pyc"
-          # - "backend/*.pyo"
-          # - "backend/*.egg-info/"
+        exclude: backend/migrations/, backend/staticfiles/, backend/venv/, backend/*.pyc, backend/*.pyo, backend/*.egg-info/
 
 
