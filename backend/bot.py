@@ -1,8 +1,10 @@
+import pytz
 from twitchio.ext import commands
 import asyncpg
 import openai
 import os
 import dotenv
+from datetime import datetime
 
 dotenv.load_dotenv()
 
@@ -26,10 +28,10 @@ async def verse_generation(text):
 # Database connection
 async def db_connection():
     connection = await asyncpg.connect(
-        user="postgres",
-        password="1234",
-        database="twitchbot",
-        host="localhost",
+        user="",
+        password="",
+        database="",
+        host="",
     )
 
     return connection
@@ -43,12 +45,17 @@ async def store_message(connection, msg, generated_verse):
                     ($1, $2, $3, $4, $5, $6, $7)
             """
 
+    brazilianTime = datetime.fromtimestamp(
+        msg.timestamp.timestamp(), tz=pytz.utc
+    ).astimezone(pytz.timezone("America/Sao_Paulo"))
+
+    print(brazilianTime)
     await connection.execute(
         query,
         msg.id,
         msg.author.name,
         msg.content,
-        msg.timestamp,
+        brazilianTime,
         msg.channel.name,
         msg.tags["color"],
         generated_verse,
@@ -59,10 +66,10 @@ class Bot(commands.Bot):
     def __init__(self):
         super().__init__(
             # Put your OAuth Password Token here. You can obtain one in https://twitchapps.com/tmi/
-            token="oauth:jybeok26b7qi2in16uha11n34xqrf6",
+            token="",
             prefix="!",
             # Set channels to track here
-            initial_channels=["darionpk"],
+            initial_channels=[""],
         )
 
         self.db_connection = None
@@ -72,7 +79,6 @@ class Bot(commands.Bot):
         print("Bot is running")
 
     async def event_message(self, message):
-        print(message.content)
         generated_verse = await verse_generation(message.content)
         await store_message(self.db_connection, message, generated_verse)
 
