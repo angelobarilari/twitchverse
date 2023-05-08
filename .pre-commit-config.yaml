@@ -12,7 +12,7 @@ repos:
         types: [javascript]
         pass_filenames: false
         files: frontend/
-        exclude: /frontend/node_modules, /frontend/build, /frontend/dist, /frontend/coverage
+        exclude: node_modules, build,fdist, coverage
 
   - repo: local
     hooks:
@@ -24,6 +24,6 @@ repos:
         types: [python]
         pass_filenames: false
         files: backend/
-        exclude: backend/migrations/, backend/staticfiles/, backend/venv/, backend/.*\.pyc$, backend/.*\.pyo$, backend/.*\.egg-info/
+        exclude: migrations/, staticfiles/, venv/, .*\.pyc$, .*\.pyo$, .*\.egg-info/
 
 
