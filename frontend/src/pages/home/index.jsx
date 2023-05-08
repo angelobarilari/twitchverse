@@ -16,7 +16,7 @@ function Home() {
 
     const messagesData = () => {
         apiUrl.get()
-             .then(res => setMessages(messages.concat(res.data.results)))
+             .then(res => setMessages(messages.concat(res.data)))
              .catch(err => console.log(err))
     }
 
