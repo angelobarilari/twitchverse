@@ -22,10 +22,10 @@ async def verse_generation(text):
 # Database connection
 async def db_connection():
     connection = await asyncpg.connect(
-        user="",
-        password="",
-        database="",
-        host=""
+        user="postgres",
+        password="1234",
+        database="twitchbot",
+        host="localhost"
     )
 
     return connection
@@ -33,9 +33,9 @@ async def db_connection():
 # This function persists the messages in the database when called
 async def store_message(connection, msg, generated_verse):
     query = ''' INSERT INTO datacollector_message 
-                    (id, author, original_message, timestamp, channel, generated_verse) 
+                    (id, author, original_message, timestamp, channel, color, generated_verse) 
                 VALUES 
-                    ($1, $2, $3, $4, $5, $6)
+                    ($1, $2, $3, $4, $5, $6, $7)
             '''
     
     await connection.execute(
@@ -44,7 +44,8 @@ async def store_message(connection, msg, generated_verse):
         msg.author.name, 
         msg.content, 
         msg.timestamp, 
-        msg.channel.name, 
+        msg.channel.name,
+        msg.tags['color'],
         generated_verse
     )
 
@@ -55,7 +56,7 @@ class Bot(commands.Bot):
             token="", 
             prefix='!', 
             # Set channels to track here
-            initial_channels=[''])
+            initial_channels=['darionpk'])
 
         self.db_connection = None
 
@@ -63,6 +64,7 @@ class Bot(commands.Bot):
         self.db_connection = await db_connection()
 
     async def event_message(self, message):
+        print(message.content)
         generated_verse = await verse_generation(message.content)
         await store_message(self.db_connection, message, generated_verse)
 
