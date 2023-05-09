@@ -26,10 +26,10 @@ async def verse_generation(text):
 # Database connection
 async def db_connection():
     connection = await asyncpg.connect(
-        user="postgres",
-        password="1234",
-        database="twitchbot",
-        host="localhost",
+        user="",
+        password="",
+        database="",
+        host="",
     )
 
     return connection
@@ -62,7 +62,7 @@ class Bot(commands.Bot):
             token="",
             prefix="!",
             # Set channels to track here
-            initial_channels=["darionpk"],
+            initial_channels=[""],
         )
 
         self.db_connection = None
@@ -71,7 +71,6 @@ class Bot(commands.Bot):
         self.db_connection = await db_connection()
 
     async def event_message(self, message):
-        print(message.content)
         generated_verse = await verse_generation(message.content)
         await store_message(self.db_connection, message, generated_verse)
 

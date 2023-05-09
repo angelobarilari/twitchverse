@@ -12,7 +12,7 @@ repos:
         types: [javascript]
         pass_filenames: false
         files: frontend/
-        exclude: node_modules, build, dist, coverage
+        exclude: node_modules, build,fdist, coverage
 
   - repo: local
     hooks:
