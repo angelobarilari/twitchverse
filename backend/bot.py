@@ -40,7 +40,7 @@ async def db_connection():
 # This function persists the messages in the database when called
 async def store_message(connection, msg, generated_verse):
     query = """ INSERT INTO datacollector_message 
-                    (id, author, original_message, timestamp, channel, color, generated_verse) 
+                    (id, author, original_message, created_at, channel, color, generated_verse) 
                 VALUES 
                     ($1, $2, $3, $4, $5, $6, $7)
             """
