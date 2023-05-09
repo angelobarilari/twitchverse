@@ -1,6 +1,6 @@
 FROM python:3.11
 
-WORKDIR /app/backend
+WORKDIR /app
 
 COPY requirements.txt .
 
@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:8000 & python bot.py"]
+CMD ["python", "bot.py"]

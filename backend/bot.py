@@ -31,7 +31,8 @@ async def db_connection():
         user="postgres",
         password="1234",
         database="twitchbot",
-        host="localhost",
+        host="db",
+        port="5432"
     )
 
     return connection
@@ -65,15 +66,19 @@ class Bot(commands.Bot):
     def __init__(self):
         super().__init__(
             # Put your OAuth Password Token here. You can obtain one in https://twitchapps.com/tmi/
-            token="",
+            token="oauth:yxrq75hjntn3bzq0j1v4dmpd7gukrm",
             prefix="!",
             # Set channels to track here
-            initial_channels=[""],
+            initial_channels=["darionpk"],
         )
 
         self.db_connection = None
 
     async def event_ready(self):
+        print("bot is running")
+        print("bot is running")
+        print("bot is running")
+        print("bot is running")
         self.db_connection = await db_connection()
 
     async def event_message(self, message):

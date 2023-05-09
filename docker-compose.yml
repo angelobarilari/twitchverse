@@ -8,26 +8,31 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend:/app/backend
+      - ./backend:/app
     environment:
       - DEBUG=True
     depends_on:
       - db
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app/frontend
-    depends_on:
-      - backend
+    command: >
+      sh -c "python manage.py makemigrations --noinput &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./frontend:/app
+  #   depends_on:
+  #     - backend
 
   db:
     image: postgres
+    ports:
+      - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=1234
-      - POSTGRES_DB=twitchbot
+      POSTGRES_DB: twitchbot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
