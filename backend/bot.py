@@ -1,8 +1,10 @@
+import pytz
 from twitchio.ext import commands
 import asyncpg
 import openai
 import os
 import dotenv
+from datetime import datetime
 
 dotenv.load_dotenv()
 
@@ -43,12 +45,16 @@ async def store_message(connection, msg, generated_verse):
                     ($1, $2, $3, $4, $5, $6, $7)
             """
 
+    brazilianTime = datetime.fromtimestamp(
+        msg.timestamp.timestamp(), tz=pytz.utc
+    ).astimezone(pytz.timezone("America/Sao_Paulo"))
+
     await connection.execute(
         query,
         msg.id,
         msg.author.name,
         msg.content,
-        msg.timestamp,
+        brazilianTime,
         msg.channel.name,
         msg.tags["color"],
         generated_verse,

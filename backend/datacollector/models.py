@@ -13,4 +13,4 @@ class Message(models.Model):
     color = models.CharField(max_length=20)
     original_message = models.TextField()
     generated_verse = models.TextField()
-    timestamp = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
