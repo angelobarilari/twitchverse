@@ -28,11 +28,11 @@ async def verse_generation(text):
 # Database connection
 async def db_connection():
     connection = await asyncpg.connect(
-        user="postgres",
-        password="1234",
-        database="twitchbot",
-        host="db",
-        port="5432"
+        user="",
+        password="",
+        database="",
+        host="",
+        port=""
     )
 
     return connection
@@ -41,7 +41,7 @@ async def db_connection():
 # This function persists the messages in the database when called
 async def store_message(connection, msg, generated_verse):
     query = """ INSERT INTO datacollector_message 
-                    (id, author, original_message, timestamp, channel, color, generated_verse) 
+                    (id, author, original_message, created_at, channel, color, generated_verse) 
                 VALUES 
                     ($1, $2, $3, $4, $5, $6, $7)
             """
@@ -66,19 +66,15 @@ class Bot(commands.Bot):
     def __init__(self):
         super().__init__(
             # Put your OAuth Password Token here. You can obtain one in https://twitchapps.com/tmi/
-            token="oauth:yxrq75hjntn3bzq0j1v4dmpd7gukrm",
+            token="",
             prefix="!",
             # Set channels to track here
-            initial_channels=["darionpk"],
+            initial_channels=[""],
         )
 
         self.db_connection = None
 
     async def event_ready(self):
-        print("bot is running")
-        print("bot is running")
-        print("bot is running")
-        print("bot is running")
         self.db_connection = await db_connection()
 
     async def event_message(self, message):
