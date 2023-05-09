@@ -49,7 +49,6 @@ async def store_message(connection, msg, generated_verse):
         msg.timestamp.timestamp(), tz=pytz.utc
     ).astimezone(pytz.timezone("America/Sao_Paulo"))
 
-    print(brazilianTime)
     await connection.execute(
         query,
         msg.id,
