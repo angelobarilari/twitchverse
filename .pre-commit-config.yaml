@@ -6,8 +6,9 @@ repos:
         entry: npx
         args:
           - eslint
-          - '--fix'
-          - .
+          - --fix
+          - --config
+          - frontend/.eslintrc.yml
         language: node
         types: [javascript]
         pass_filenames: false

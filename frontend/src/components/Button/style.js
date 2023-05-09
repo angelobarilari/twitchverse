@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const StyledButton = styled.button`
   border: none;
   
-  height: fit-content;
+  height: ${props=>props.height || "fit-content"}
   width: ${props=>props.width || "auto"};
 
   padding: ${(props) => props.padding || "10px"};
