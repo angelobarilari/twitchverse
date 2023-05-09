@@ -6,8 +6,7 @@ import {
 
 function Message({ 
     author,
-    original_message,
-    generated_verse,
+    text,
     timestamp,
     color,
     ...rest}) {
@@ -32,7 +31,7 @@ function Message({
                     color={color}> 
                     {author}
                 </AuthorSpan>
-                : {original_message}
+                : {text}
             </ChatLine>
         </StyledMessage>
     )

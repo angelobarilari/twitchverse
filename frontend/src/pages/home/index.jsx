@@ -27,22 +27,21 @@ function Home() {
 
             <StyledDefaultPage>
                 <Box 
-                    id="chat-box"
+                    className="chat-box"
                     minWidth="400px"
                     maxWidth="30%"
                     height="fit-content%"
                     background="var(--grey-3)">
 
                     <Box
-                        id="chat"   
+                        className="chat"   
                         minWidth="90%"
                         shadow="unset">
 
                         {messages?.map((message, index) => 
                             <Message 
                                 author={message.author}
-                                original_message={message.original_message}
-                                generated_verse={message.generated_verse}
+                                text={message.original_message}
                                 timestamp={message.timestamp}
                                 color={message.color}
                                 key={index} />
@@ -50,7 +49,7 @@ function Home() {
                     </Box>
 
                     <Button 
-                        id="request-messages-btn"
+                        className="request-messages-btn"
                         children={"Load messages"}
                         minWidth="95%"
                         background="var(--purple-1)" 
@@ -59,6 +58,42 @@ function Home() {
                         type="submit"
                         onClick={() => messagesData()} />
                 </Box>
+
+                <Box 
+                    className="chat-box"
+                    minWidth="400px"
+                    maxWidth="30%"
+                    height="fit-content%"
+                    background="var(--grey-3)">
+
+                    <Box
+                        className="chat"   
+                        minWidth="90%"
+                        shadow="unset">
+
+                        {messages?.map((message, index) => 
+                            <Message 
+                                author={message.author}
+                                text={message.generated_verse}
+                                timestamp={message.timestamp}
+                                color={message.color}
+                                key={index} />
+                        )}
+                    </Box>
+
+                    <Button 
+                        className="request-messages-btn"
+                        children={"Load messages"}
+                        minWidth="95%"
+                        background="var(--purple-1)" 
+                        color="var(--white)" 
+                        hover="var(--purple-2)"
+                        type="submit"
+                        onClick={() => messagesData()} />
+                </Box>
+            
+            
+
             </StyledDefaultPage>
         </>
     )
