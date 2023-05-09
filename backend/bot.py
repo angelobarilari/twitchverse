@@ -69,10 +69,8 @@ class Bot(commands.Bot):
 
     async def event_ready(self):
         self.db_connection = await db_connection()
-        print("Bot is running")
 
     async def event_message(self, message):
-        print(message.content)
         generated_verse = await verse_generation(message.content)
         await store_message(self.db_connection, message, generated_verse)
 
