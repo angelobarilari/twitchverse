@@ -32,6 +32,7 @@ async def db_connection():
         password="",
         database="",
         host="",
+        port=""
     )
 
     return connection
