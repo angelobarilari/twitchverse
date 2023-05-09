@@ -1,0 +1,30 @@
+repos:
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: npx
+        args:
+          - eslint
+          - --fix
+          - --config
+          - frontend/.eslintrc.yml
+        language: node
+        types: [javascript]
+        pass_filenames: false
+        files: frontend/
+        exclude: node_modules, build,fdist, coverage
+
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black
+        args: ["--line-length", "79", "."]
+        language: system
+        types: [python]
+        pass_filenames: false
+        files: backend/
+        exclude: migrations/, staticfiles/, venv/, .*\.pyc$, .*\.pyo$, .*\.egg-info/
+
+
