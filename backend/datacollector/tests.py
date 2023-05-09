@@ -22,11 +22,11 @@ def create_messages(messagesAmount):
     for i in range(messagesAmount):
         message = Message(
             id=uuid.uuid4(),
-            author=f"Author {random_string()}",
-            channel=f"Channel {random_string()}",
-            color=f"Color {random_hex_color()}",
-            original_message=f"Original message {random_string()}",
-            generated_verse=f"Generated verse {random_string()}",
+            author=f"{random_string()}",
+            channel=f"{random_string()}",
+            color=f"{random_hex_color()}",
+            original_message=f"{random_string()}",
+            generated_verse=f"{random_string()}",
             created_at=timezone.now()
         )
         messages.append(message)
