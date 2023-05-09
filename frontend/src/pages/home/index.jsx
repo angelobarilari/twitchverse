@@ -16,13 +16,13 @@ function Home() {
 
     const messagesData = () => {
         apiUrl.get()
-             .then(res => setMessages(messages.concat(res.data.results)))
+             .then(res => setMessages(res.data))
              .catch(err => console.log(err))
     }
 
-    const messagesByUsername = (formData) => {
-        apiUrl.get(`${formData.username}/`)
-            .then(res => setMessages(messages.concat(res.data.results)))
+    const getMessagesByUsername = (formData) => {
+        apiUrl.get(`author/${formData.username}/`)
+            .then(res => setMessages(res.data))
             .catch(err => console.log(err))
     }
 
@@ -31,8 +31,29 @@ function Home() {
                      .required('Enter a username')
     })
     
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { 
+        register: usernameRegister, 
+        handleSubmit: usernameSubmit, 
+        formState: { errors: usernameErrors } } = useForm({
         resolver: yupResolver(requestMessagesByUsernameSchema)
+    })
+
+    const getMessagesByWord = (formData) => {
+        apiUrl.get(`word/${formData.word}/`)
+            .then(res => setMessages(res.data))
+            .catch(err => console.log(err))
+    }
+
+    const requestMessagesBywordSchema = yup.object().shape({
+        word: yup.string()
+                     .required('Enter a word')
+    })
+
+    const { 
+        register: wordRegister, 
+        handleSubmit: wordSubmit, 
+        formState: { errors: wordErrors } } = useForm({
+        resolver: yupResolver(requestMessagesBywordSchema)
     })
 
     return (
@@ -50,14 +71,14 @@ function Home() {
                     background="var(--grey-3)">
 
                     <form
-                        onSubmit={handleSubmit(messagesByUsername)}>
+                        onSubmit={usernameSubmit(getMessagesByUsername)}>
                         
                         <div className="input-container">
                                 <input 
                                     className="search-input"
                                     type="text"
                                     placeholder="Search messages by username"
-                                    {...register("username")} />
+                                    {...usernameRegister("username")} />
                         </div>
                         
                         <Button 
@@ -71,10 +92,41 @@ function Home() {
                             Search
                         </Button>
                     </form>
-                    {errors.username?.message && 
+                    {usernameErrors.username?.message && 
                         <span className="error-message">
                             {errors.username.message}
                         </span>}
+                    
+                    <form
+                        onSubmit={wordSubmit(getMessagesByWord)}>
+                        
+                        <div className="input-container">
+                                <input 
+                                    className="search-input"
+                                    type="text"
+                                    placeholder="Search messages by word"
+                                    {...wordRegister("word")} />
+                        </div>
+                        
+                        <Button 
+                            id="submit-btn"
+                            minWidth="20%"
+                            height="80%"
+                            background="var(--purple-1)" 
+                            color="var(--white)" 
+                            hover="var(--purple-2)"
+                            type="submit">  
+                            Search
+                        </Button>
+                    </form>
+                    {wordErrors.word?.message && 
+                        <span className="error-message">
+                            {wordErrors.word.message}
+                        </span>}
+
+                    <form>
+                        
+                    </form>
                 </Box>
 
                 <Box 
@@ -93,7 +145,7 @@ function Home() {
                             <Message 
                                 author={message.author}
                                 text={message.original_message}
-                                timestamp={message.timestamp}
+                                timestamp={message.created_at}
                                 color={message.color}
                                 key={index} />
                         )}
@@ -126,7 +178,7 @@ function Home() {
                             <Message 
                                 author={message.author}
                                 text={message.generated_verse}
-                                timestamp={message.timestamp}
+                                timestamp={message.created_at}
                                 color={message.color}
                                 key={index} />
                         )}
