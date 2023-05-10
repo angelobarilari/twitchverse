@@ -1,6 +1,8 @@
 from rest_framework.test import APITestCase
 from datacollector.models import Message
 from django.utils import timezone
+from datetime import datetime, timedelta
+import pytz
 import uuid
 import random
 import string
@@ -36,6 +38,18 @@ def create_messages(messagesAmount):
 
     return Message.objects.bulk_create(messages)
 
+def get_brazilian_time():
+    utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
+    return int(utc_now.astimezone(pytz.timezone('America/Sao_Paulo')).timestamp())
+
+
+def get_start_time():
+    return int(get_brazilian_time() - timedelta(days=3).total_seconds())
+
+
+def get_end_time():
+    return int(get_brazilian_time() + timedelta(days=3).total_seconds())
+
 
 class MessageModelTest(APITestCase):
     @classmethod
@@ -54,6 +68,8 @@ class MessageModelTest(APITestCase):
             [message.original_message for message in cls.messages]
             + [message.generated_verse for message in cls.messages]
         )
+        cls.start_time = get_start_time()
+        cls.end_time = get_end_time()
 
     def test_get_messages(self):
         response = self.client.get(self.get_all_messages_url)
@@ -134,5 +150,12 @@ class MessageModelTest(APITestCase):
                 or self.random_word in message["original_message"]
                 for message in messages
             )
-        ) # CHek if "random_word" is present in either the "generated_verse" or "original_message" fields
+        ) # Check if "random_word" is present in either the "generated_verse" or "original_message" fields
+
+    def test_get_messages_by_time_interval(self):
+        response = self.client.get(f"{self.get_messages_by_date_url}{self.start_time}/{self.end_time}/")
+        messages = response.data
+        
+        self.assertEqual(len(messages), 5)  # Check if there are 5 messages
+
 
