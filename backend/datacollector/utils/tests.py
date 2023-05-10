@@ -13,7 +13,7 @@ import pytz
 import string
 
 
-class TestGenerateRandomString(unittest.TestCase):
+class TestRandomStringGeneration(unittest.TestCase):
     def test_length_10(self):
         self.assertEqual(len(generate_random_string(10)), 10)
 
@@ -35,7 +35,7 @@ class TestGenerateRandomString(unittest.TestCase):
         )
 
 
-class TestGenerateRandomHexColor(unittest.TestCase):
+class TestRandomHexColorGeneration(unittest.TestCase):
     def test_hex_color_format(self):
         self.assertRegex(generate_random_hex_color(), "^#[0-9a-fA-F]{6}$")
 
