@@ -28,11 +28,7 @@ async def verse_generation(text):
 # Database connection
 async def db_connection():
     connection = await asyncpg.connect(
-        user="",
-        password="",
-        database="",
-        host="",
-        port=""
+        user="", password="", database="", host="", port=""
     )
 
     return connection
