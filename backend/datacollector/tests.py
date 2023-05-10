@@ -38,10 +38,13 @@ class MessageModelTest(APITestCase):
     def setUpTestData(cls) -> None:
         cls.get_all_messages_url = "http://localhost:8000/api/messages/"
         cls.get_messages_by_username_url = "http://localhost:8000/api/messages/author/"
-        cls.get_messages_by_word_url = "http://localhost:8000/api/messages/word>/"
+        cls.get_messages_by_word_url = "http://localhost:8000/api/messages/word/"
         cls.get_messages_by_date_url = "http://localhost:8000/api/messages/"
         cls.messages = create_messages(5)
         cls.random_username = cls.messages[random.randint(0, 4)].author
+        cls.random_word = random.choice(
+            [message.original_message for message in cls.messages] + [message.generated_verse for message in cls.messages]
+        )
 
     def test_get_messages(self):
         response = self.client.get(self.get_all_messages_url)
@@ -74,6 +77,19 @@ class MessageModelTest(APITestCase):
 
         # A random username is obtained from the 5 messages created and stored in "random_username"
         self.assertEqual(messages[0]["author"], self.random_username) # Check if "author" is equal to "random_username"
+
+    def test_get_messages_by_word(self):
+        response = self.client.get(f"{self.get_messages_by_word_url}{self.random_word}/")
+        messages = response.data    
+        
+        self.assertTrue(
+            any(self.random_word in message["generated_verse"] or 
+                self.random_word in message["original_message"] for message in messages)
+        )
+
+        # A random word is obtained from the 5 messages created and stored in "random_word"
+        # self.assertEqual(messages[0]["random_message"], self.random_word) # Check if "word" is equal to "random_word"
+
 
 
 
