@@ -38,9 +38,12 @@ def create_messages(messagesAmount):
 
     return Message.objects.bulk_create(messages)
 
+
 def get_brazilian_time():
     utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
-    return int(utc_now.astimezone(pytz.timezone('America/Sao_Paulo')).timestamp())
+    return int(
+        utc_now.astimezone(pytz.timezone("America/Sao_Paulo")).timestamp()
+    )
 
 
 def get_start_time():
@@ -150,12 +153,12 @@ class MessageModelTest(APITestCase):
                 or self.random_word in message["original_message"]
                 for message in messages
             )
-        ) # Check if "random_word" is present in either the "generated_verse" or "original_message" fields
+        )  # Check if "random_word" is present in either the "generated_verse" or "original_message" fields
 
     def test_get_messages_by_time_interval(self):
-        response = self.client.get(f"{self.get_messages_by_date_url}{self.start_time}/{self.end_time}/")
+        response = self.client.get(
+            f"{self.get_messages_by_date_url}{self.start_time}/{self.end_time}/"
+        )
         messages = response.data
-        
+
         self.assertEqual(len(messages), 5)  # Check if there are 5 messages
-
-
