@@ -1,57 +1,8 @@
 from rest_framework.test import APITestCase
-from datacollector.models import Message
-from django.utils import timezone
-from datetime import datetime, timedelta
-import pytz
-import uuid
+from .utils.helpers import generate_messages, get_start_time, get_end_time
 import random
-import string
 
 # Create your tests here.
-
-
-def random_string():
-    letters = string.ascii_letters
-    return "".join(random.choice(letters) for i in range(30))
-
-
-def random_hex_color():
-    r = random.randint(0, 255)
-    g = random.randint(0, 255)
-    b = random.randint(0, 255)
-    return "#{:02x}{:02x}{:02x}".format(r, g, b)
-
-
-def create_messages(messagesAmount):
-    messages = []
-    for i in range(messagesAmount):
-        message = Message(
-            id=uuid.uuid4(),
-            author=f"{random_string()}",
-            channel=f"{random_string()}",
-            color=f"{random_hex_color()}",
-            original_message=f"{random_string()}",
-            generated_verse=f"{random_string()}",
-            created_at=timezone.now(),
-        )
-        messages.append(message)
-
-    return Message.objects.bulk_create(messages)
-
-
-def get_brazilian_time():
-    utc_now = datetime.utcnow().replace(tzinfo=pytz.utc)
-    return int(
-        utc_now.astimezone(pytz.timezone("America/Sao_Paulo")).timestamp()
-    )
-
-
-def get_start_time():
-    return int(get_brazilian_time() - timedelta(days=3).total_seconds())
-
-
-def get_end_time():
-    return int(get_brazilian_time() + timedelta(days=3).total_seconds())
 
 
 class MessageModelTest(APITestCase):
@@ -65,7 +16,7 @@ class MessageModelTest(APITestCase):
             "http://localhost:8000/api/messages/word/"
         )
         cls.get_messages_by_date_url = "http://localhost:8000/api/messages/"
-        cls.messages = create_messages(5)
+        cls.messages = generate_messages(5, 30)
         cls.random_username = cls.messages[random.randint(0, 4)].author
         cls.random_word = random.choice(
             [message.original_message for message in cls.messages]
