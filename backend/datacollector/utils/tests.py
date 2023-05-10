@@ -26,8 +26,8 @@ class TestRandomStringGeneration(unittest.TestCase):
     def test_length_50(self):
         self.assertEqual(len(generate_random_string(50)), 50)
 
-    # Iterates over each character in a string 
-    # and checks whether it is a letter of the alphabet or not 
+    # Iterates over each character in a string
+    # and checks whether it is a letter of the alphabet or not
     # returning false if any are not
     def test_string_contains_letters(self):
         self.assertTrue(
@@ -43,7 +43,7 @@ class TestRandomHexColorGeneration(unittest.TestCase):
     def test_hex_color_format(self):
         self.assertRegex(generate_random_hex_color(), "^#[0-9a-fA-F]{6}$")
 
-     # Check if that two randomly generated hex colors are not equal
+    # Check if that two randomly generated hex colors are not equal
     def test_randomness(self):
         self.assertNotEqual(
             generate_random_hex_color(), generate_random_hex_color()
@@ -58,7 +58,7 @@ class TestMessageGeneration(unittest.TestCase):
 
         self.assertEqual(len(generated_messages), messages_amount)
 
-        # Loop through each generated message and 
+        # Loop through each generated message and
         # ensure that each attribute has the expected types and lengths
         for message in generated_messages:
             self.assertIsInstance(message, Message)
