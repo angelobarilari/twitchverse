@@ -129,7 +129,7 @@ class MessageModelTest(APITestCase):
                 len(message["generated_verse"]), 1000
             )  # Check if "generated_verse" has at most 1000 characters
 
-    def test_get_messages_by_username(self):
+    def test_get_messages_with_existing_username(self):
         response = self.client.get(
             f"{self.get_messages_by_username_url}{self.random_username}/"
         )
@@ -140,7 +140,19 @@ class MessageModelTest(APITestCase):
             messages[0]["author"], self.random_username
         )  # Check if "author" is equal to "random_username"
 
-    def test_get_messages_by_word(self):
+    def test_get_messages_with_non_existing_username(self):
+        response = self.client.get(
+            f"{self.get_messages_by_username_url}invalid_username/"
+        )
+
+        self.assertEqual(
+            response.status_code, 404
+        )  # Check if status_code is equal to 404
+        self.assertEqual(
+            response.data["detail"], "Not found."
+        )  # Check if we have a object and content is equal to "Not found"
+
+    def test_get_messages_by_existing_word(self):
         response = self.client.get(
             f"{self.get_messages_by_word_url}{self.random_word}/"
         )
@@ -155,10 +167,34 @@ class MessageModelTest(APITestCase):
             )
         )  # Check if "random_word" is present in either the "generated_verse" or "original_message" fields
 
-    def test_get_messages_by_time_interval(self):
+    def test_get_messages_by_non_existing_word(self):
+        response = self.client.get(
+            f"{self.get_messages_by_word_url}invalid_word/"
+        )
+
+        self.assertEqual(
+            response.status_code, 404
+        )  # Check if status_code is equal to 404
+        self.assertEqual(
+            response.data["detail"], "Not found."
+        )  # Check if we have a object and content is equal to "Not found"
+
+    def test_get_messages_by_valid_time_interval(self):
         response = self.client.get(
             f"{self.get_messages_by_date_url}{self.start_time}/{self.end_time}/"
         )
         messages = response.data
 
         self.assertEqual(len(messages), 5)  # Check if there are 5 messages
+
+    def test_get_messages_by_invalid_time_interval(self):
+        response = self.client.get(
+            f"{self.get_messages_by_date_url}1683385974/1683472374/"
+        )
+
+        self.assertEqual(
+            response.status_code, 404
+        )  # Check if status_code is equal to 404
+        self.assertEqual(
+            response.data["detail"], "Not found."
+        )  # Check if we have a object and content is equal to "Not found"
