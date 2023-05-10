@@ -3,9 +3,9 @@ from .serializers import MessageSerializer
 from datacollector.models import Message
 from rest_framework import generics
 from django.shortcuts import get_list_or_404
-from rest_framework.views import APIView, Request
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.views import APIView, Request, Response, status
 from datetime import datetime
+from django.db.models import Q
 import pytz
 
 
@@ -14,18 +14,31 @@ class MessageView(generics.ListAPIView):
     queryset = Message.objects.all()
 
 
-class MessageDetailView(APIView, PageNumberPagination):
+class MessageFilterByAuthorView(APIView):
     def get(self, request: Request, author: str):
         messages = get_list_or_404(Message, author=author)
 
-        messages = self.paginate_queryset(messages, request, view=self)
+        serializer = MessageSerializer(messages, many=True)
+
+        return Response(serializer.data, status.HTTP_200_OK)
+
+
+class MessageFilterByWordView(APIView):
+    def get(self, request: Request, word: str):
+        messages = get_list_or_404(
+            Message,
+            (
+                Q(original_message__icontains=word)
+                | Q(generated_verse__icontains=word)
+            ),
+        )
 
         serializer = MessageSerializer(messages, many=True)
 
-        return self.get_paginated_response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 
-class MessageListView(APIView, PageNumberPagination):
+class MessageListByDateView(APIView):
     def get(self, request: Request, start_time, end_time):
         start = datetime.fromtimestamp(
             int(start_time), pytz.timezone("America/Sao_Paulo")
@@ -36,8 +49,6 @@ class MessageListView(APIView, PageNumberPagination):
 
         messages = get_list_or_404(Message, timestamp__range=(start, end))
 
-        messages = self.paginate_queryset(messages, request, view=self)
-
         serializer = MessageSerializer(messages, many=True)
 
-        return self.get_paginated_response(serializer.data)
+        return Response(serializer.data, status.HTTP_200_OK)

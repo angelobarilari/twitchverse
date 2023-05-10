@@ -98,11 +98,11 @@ WSGI_APPLICATION = "customapi.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB_NAME"),
-        "USER": os.getenv("POSTGRES_USERNAME"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": "",
+        "USER": "",
+        "PASSWORD": "",
+        "HOST": "",
+        "PORT": "",
     },
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',

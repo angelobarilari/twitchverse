@@ -1,6 +1,6 @@
 from django.db import models
+from django.utils import timezone
 import uuid
-
 
 class Message(models.Model):
     id = models.UUIDField(
@@ -13,4 +13,4 @@ class Message(models.Model):
     color = models.CharField(max_length=20)
     original_message = models.TextField()
     generated_verse = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now())
