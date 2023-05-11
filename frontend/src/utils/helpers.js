@@ -12,6 +12,9 @@ export const getMessageTimestamp = (timestamp) => {
     return timeString;
 };
 
+// This function finds an HTML element that contains the specified text
+// It checks if the element or its children have the text and returns the element. 
+// If the element cannot be found, it throws an error
 export const findElementByText = (text) => {
     const element = screen.queryByText((content, element) => {
         const hasText = (node) => node.textContent === content;
