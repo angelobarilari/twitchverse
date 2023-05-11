@@ -98,11 +98,11 @@ WSGI_APPLICATION = "customapi.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "",
-        "USER": "",
-        "PASSWORD": "",
-        "HOST": "",
-        "PORT": "",
+        "NAME": "twitchbot",
+        "USER": "postgres",
+        "PASSWORD": "1234",
+        "HOST": "db",
+        "PORT": "5432",
     },
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
