@@ -31,7 +31,7 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ '34.125.210.99' ]
+ALLOWED_HOSTS = [ "34.70.20.68" ]
 
 
 
