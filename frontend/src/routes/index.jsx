@@ -1,8 +1,7 @@
-import { Switch, Route } from "react-router-dom"
-import Home from "../pages/home"
+import { Switch, Route } from "react-router-dom";
+import Home from "../pages/home";
 
 function Routes() {
-
     return (
         <>
             <Switch>
@@ -11,7 +10,7 @@ function Routes() {
                 </Route>
             </Switch>
         </>
-    )
+    );
 }
 
-export default Routes
+export default Routes;
