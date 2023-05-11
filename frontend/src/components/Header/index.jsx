@@ -3,8 +3,7 @@ import { StyledHeader } from "./style";
 
 function Header({ children, ...rest }) {
     return (
-        <StyledHeader
-            {...rest}>
+        <StyledHeader {...rest}>
             <div id="header-container">
                 <Link to="/" id="logo-container">
                     <h1 id="logo">Twitch</h1>
@@ -12,6 +11,6 @@ function Header({ children, ...rest }) {
             </div>
         </StyledHeader>
     );
-};
+}
 
 export default Header;

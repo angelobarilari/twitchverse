@@ -10,7 +10,7 @@ function Message({ author, text, timestamp, color, ...rest }) {
     if (messageMinutes < 10) messageMinutes = `0${messageMinutes}`;
 
     return (
-        <StyledMessage>
+        <StyledMessage {...rest}>
             <ChatLine>
                 <HourSpan>{`${messageHour}:${messageMinutes} `}</HourSpan>
                 <AuthorSpan color={color}>{author}</AuthorSpan>: {text}
