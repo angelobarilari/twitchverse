@@ -1,35 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import Message from ".";
-
-// Returns a formatted string with the timestamp of a message
-function getMessageTimestamp(timestamp) {
-    const date = new Date(timestamp);
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
-}
-
-// This function searches for an element on the screen that contains the given text. 
-// If the element is found, it is returned. If not, an error is thrown.
-function findElementByText(text) {
-    const element = screen.queryByText((content, element) => {
-        const hasText = (node) => node.textContent === content;
-        const nodeHasText = hasText(element);
-        const childrenDontHaveText = Array.from(element.children).every(
-            (child) => !hasText(child)
-        );
-
-        return nodeHasText && childrenDontHaveText;
-    }, text);
-
-    if (!element) throw new Error(`Could not find element with text: ${text}`);
-
-    return element;
-}
+import { getMessageTimestamp, findElementByText } from "../../utils/helpers";
+import Message from "../Message";
 
 describe("Message Component", () => {
-    const author = "John";
-    const text = "mystring";
+    const author = "Random user";
+    const text = "Random string";
     const timestamp = new Date().toString();
     const color = "#000000";
 
