@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
 
-// Returns a formatted string with the hour and minutes of a message
+// Returns a formatted string with the hour and minutes of a timestamp
 export const getMessageTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const timeString = date.toLocaleTimeString([], {
