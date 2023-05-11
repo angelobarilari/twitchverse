@@ -1,32 +1,40 @@
-import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from "react-router-dom";
 import Header from '../Header';
-import Enzyme, { shallow } from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
-Enzyme.configure({ adapter: new Adapter() });
+test('should render correctly', () => {
+    render(
+        <MemoryRouter>
+            <Header
+                data-testid="test-header">
+                <div 
+                    data-testid="child">
+                        Child component
+                </div>
+            </Header>
+        </MemoryRouter>);
 
-test('renders without crashing', () => {
-    shallow(<Header />);
+    const header = screen.getByTestId("test-header");
+    expect(header).toBeInTheDocument();
+    expect(screen.queryByTestId("child")).toBeNull();
 });
 
-test('renders a StyledHeader component', () => {
-    const wrapper = shallow(<Header />);
-    expect(wrapper.find('StyledHeader').length).toBe(1);
+test('should render a logo', () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>);
+
+    const logo = screen.getByRole('heading', { name: /Twitch/i });
+    expect(logo).toBeInTheDocument();
 });
 
-test('renders a Link component with the correct props', () => {
-    const wrapper = shallow(<Header />);
-    const link = wrapper.find('Link');
-    expect(link.length).toBe(1);
-    expect(link.props().to).toBe('/');
-    expect(link.props().id).toBe('logo-container');
+test('should render a link to home page', () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>);
+  
+    const homeLink = screen.getByRole('link', { name: /Twitch/i });
+    expect(homeLink).toHaveAttribute('href', '/');
 });
-
-test('renders a h1 element with the correct props', () => {
-    const wrapper = shallow(<Header />);
-    const h1 = wrapper.find('h1');
-    expect(h1.length).toBe(1);
-    expect(h1.props().id).toBe('logo');
-    expect(h1.text()).toBe('Twitch');
-});
-
