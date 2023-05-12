@@ -28,7 +28,11 @@ async def verse_generation(text):
 # Database connection
 async def db_connection():
     connection = await asyncpg.connect(
-        user="postgres", password="1234", database="twitchbot", host="db", port="5432"
+        user="postgres",
+        password="1234",
+        database="twitchbot",
+        host="db",
+        port="5432",
     )
 
     return connection

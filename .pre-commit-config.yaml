@@ -15,6 +15,18 @@ repos:
         files: frontend/
         exclude: node_modules, build,fdist, coverage
 
+      - id: prettier
+        name: prettier
+        entry: npx
+        args:
+          - prettier
+          - --write
+          - "**/*.{js,jsx,json,md}"
+        language: node
+        types: [javascript, json, markdown]
+        pass_filenames: true
+        require_serial: true
+
   - repo: local
     hooks:
       - id: black
