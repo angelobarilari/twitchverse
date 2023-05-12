@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 import uuid
 
+
 class Message(models.Model):
     id = models.UUIDField(
         primary_key=True,

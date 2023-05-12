@@ -47,7 +47,7 @@ class MessageListByDateView(APIView):
             int(end_time), pytz.timezone("America/Sao_Paulo")
         )
 
-        messages = get_list_or_404(Message, timestamp__range=(start, end))
+        messages = get_list_or_404(Message, created_at__range=(start, end))
 
         serializer = MessageSerializer(messages, many=True)
 
