@@ -1,6 +1,7 @@
-function DefaultPage() {
-    
-    return (<></>)
+import { StyledDefaultPage } from "./style";
+
+function DefaultPage({ children, ...rest }) {
+    return <StyledDefaultPage {...rest}>{children}</StyledDefaultPage>;
 }
 
-export default DefaultPage
+export default DefaultPage;

@@ -28,11 +28,7 @@ async def verse_generation(text):
 # Database connection
 async def db_connection():
     connection = await asyncpg.connect(
-        user="postgres",
-        password="1234",
-        database="twitchbot",
-        host="db",
-        port="5432"
+        user="postgres", password="1234", database="twitchbot", host="db", port="5432"
     )
 
     return connection
@@ -46,7 +42,7 @@ async def store_message(connection, msg, generated_verse):
                     ($1, $2, $3, $4, $5, $6, $7)
             """
 
-    brazilianTime = datetime.fromtimestamp(
+    brazilian_time = datetime.fromtimestamp(
         msg.timestamp.timestamp(), tz=pytz.utc
     ).astimezone(pytz.timezone("America/Sao_Paulo"))
 
@@ -55,7 +51,7 @@ async def store_message(connection, msg, generated_verse):
         msg.id,
         msg.author.name,
         msg.content,
-        brazilianTime,
+        brazilian_time,
         msg.channel.name,
         msg.tags["color"],
         generated_verse,

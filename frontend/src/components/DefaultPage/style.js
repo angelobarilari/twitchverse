@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const StyledDefaultPage = styled.div`
     width: 100%;
@@ -10,5 +10,4 @@ export const StyledDefaultPage = styled.div`
     background-color: var(--grey-2);
 
     border-radius: 5px;
-`
-
+`;

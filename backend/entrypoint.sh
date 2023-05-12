@@ -1,6 +1,5 @@
 #!/bin/sh
 
-python bot.py &
-python manage.py makemigrations --noinput &&
+python bot.py &&
 python manage.py migrate &&
 python manage.py runserver 0.0.0.0:8000
