@@ -10,4 +10,7 @@ parserOptions:
   sourceType: module
 plugins:
   - react
-rules: {}
+rules:
+  indent:
+    - error
+    - 4

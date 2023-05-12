@@ -1,11 +1,7 @@
 import { MessageDataProvider } from "./messages";
 
 const Provider = ({ children }) => {
-    return (
-        <MessageDataProvider>
-            {children}
-        </MessageDataProvider>
-    )
-}
+    return <MessageDataProvider>{children}</MessageDataProvider>;
+};
 
-export default Provider
+export default Provider;

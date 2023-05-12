@@ -1,12 +1,7 @@
-import { StyledBox } from "./style"
+import { StyledBox } from "./style";
 
 function Box({ children, ...rest }) {
-    return (
-        <StyledBox
-            {...rest}>
-            {children}
-        </StyledBox>
-    )
+    return <StyledBox {...rest}>{children}</StyledBox>;
 }
 
-export default Box
+export default Box;
