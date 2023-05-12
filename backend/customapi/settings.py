@@ -31,7 +31,8 @@ SECRET_KEY = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ "34.70.20.68" ]
+
 
 
 # Application definition
@@ -98,11 +99,11 @@ WSGI_APPLICATION = "customapi.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB_NAME"),
-        "USER": os.getenv("POSTGRES_USERNAME"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
+        "NAME": "twitchbot",
+        "USER": "postgres",
+        "PASSWORD": "1234",
+        "HOST": "db",
+        "PORT": "5432",
     },
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',

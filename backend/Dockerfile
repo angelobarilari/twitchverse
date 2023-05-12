@@ -11,4 +11,9 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["./entrypoint.sh"]
+# RUN chmod 777 ./entrypoint.sh
+
+# RUN chown -R 1000:1000 /app
+# USER 1000
+
+# CMD ["./entrypoint.sh"]

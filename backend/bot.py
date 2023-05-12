@@ -28,7 +28,7 @@ async def verse_generation(text):
 # Database connection
 async def db_connection():
     connection = await asyncpg.connect(
-        user="", password="", database="", host="", port=""
+        user="postgres", password="1234", database="twitchbot", host="db", port="5432"
     )
 
     return connection
@@ -62,16 +62,17 @@ class Bot(commands.Bot):
     def __init__(self):
         super().__init__(
             # Put your OAuth Password Token here. You can obtain one in https://twitchapps.com/tmi/
-            token="",
+            token="oauth:kvdw0vtqb5adltv8rg21zwnh51f20r",
             prefix="!",
             # Set channels to track here
-            initial_channels=[""],
+            initial_channels=["darionpk"],
         )
 
         self.db_connection = None
 
     async def event_ready(self):
         self.db_connection = await db_connection()
+        print("bot is running")
 
     async def event_message(self, message):
         generated_verse = await verse_generation(message.content)

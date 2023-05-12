@@ -13,23 +13,28 @@ services:
       - DEBUG=True
     depends_on:
       - db
+    command: >
+      sh -c "python manage.py makemigrations --noinput &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000 &
+             python bot.py"
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./frontend:/app
-  #   depends_on:
-  #     - backend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
 
   db:
     image: postgres
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: 
-      POSTGRES_USER: 
-      POSTGRES_PASSWORD: 
+      POSTGRES_DB: twitchbot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
