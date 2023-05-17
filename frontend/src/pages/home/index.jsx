@@ -47,7 +47,7 @@ function Home() {
             .catch((err) => console.log(err));
     };
 
-    const requestMessagesBywordSchema = yup.object().shape({
+    const requestMessagesByWordSchema = yup.object().shape({
         word: yup.string().required("Enter a word"),
     });
 
@@ -56,8 +56,42 @@ function Home() {
         handleSubmit: wordSubmit,
         formState: { errors: wordErrors },
     } = useForm({
-        resolver: yupResolver(requestMessagesBywordSchema),
+        resolver: yupResolver(requestMessagesByWordSchema),
     });
+
+    const getMessagesByDateInterval = (formData) => {
+        let { startDate, endDate } = formData
+
+        startDate = Math.floor(startDate / 1000)
+
+        if (!endDate)
+            endDate = Math.floor(Date.now() / 1000)
+
+        apiUrl
+            .get(`${startDate}/${endDate}/`)
+            .then((res) => setMessages(res.data))
+            .catch((err) => console.log(err));
+    };
+
+    function parseDateString(value, originalValue) {
+        const parsedDate = Date.parse(originalValue);
+        return Number.isNaN(parsedDate) ? null : new Date(parsedDate);
+    }
+
+    const requestMessagesByDateIntervalSchema = yup.object().shape({
+        startDate: yup.date().transform(parseDateString).required(),
+
+        // endDate: yup.date().transform(parseDateString)
+    });
+
+    const {
+        register: dateIntervalRegister,
+        handleSubmit: dateIntervalSubmit,
+        formState: { errors: dateIntervalErrors },
+    } = useForm({
+        resolver: yupResolver(requestMessagesByDateIntervalSchema),
+    });
+
 
     return (
         <>
@@ -82,14 +116,13 @@ function Home() {
                         </div>
 
                         <Button
-                            id="submit-btn"
+                            className="submit-btn"
                             minWidth="20%"
                             height="80%"
                             background="var(--purple-1)"
                             color="var(--white)"
                             hover="var(--purple-2)"
-                            type="submit"
-                        >
+                            type="submit" >
                             Search
                         </Button>
                     </form>
@@ -110,14 +143,13 @@ function Home() {
                         </div>
 
                         <Button
-                            id="submit-btn"
+                            className="submit-btn"
                             minWidth="20%"
                             height="80%"
                             background="var(--purple-1)"
                             color="var(--white)"
                             hover="var(--purple-2)"
-                            type="submit"
-                        >
+                            type="submit" >
                             Search
                         </Button>
                     </form>
@@ -127,7 +159,58 @@ function Home() {
                         </span>
                     )}
 
-                    <form></form>
+                    <form
+                        className="date-interval-form"
+                        onSubmit={dateIntervalSubmit(getMessagesByDateInterval)}>
+
+                        <div className="input-container">
+                            <label 
+                                className="date-label"
+                                htmlFor="start-time-interval">
+                                Start time interval:
+                                <input 
+                                    className="search-input"
+                                    type="datetime-local" 
+                                    name="start-time-interval" 
+                                    {...dateIntervalRegister("startDate")} />
+                            </label>
+                        </div>
+                        
+                        <div className="input-container">
+                            <label 
+                                className="date-label"
+                                htmlFor="end-time-interval">
+                                End time interval:
+                                <input 
+                                    className="search-input"
+                                    type="datetime-local" 
+                                    name="end-time-interval" 
+                                    {...dateIntervalRegister("endDate")} />
+                            </label>
+                        </div>
+
+                        <Button
+                            className="submit-btn"
+                            id="form-submit-btn"
+                            minWidth="20%"
+                            height="55%"
+                            background="var(--purple-1)"
+                            color="var(--white)"
+                            hover="var(--purple-2)"
+                            type="submit" >
+                            Search
+                        </Button>
+                    </form>
+                    {dateIntervalErrors.startDate?.message && (
+                        <span className="error-message">
+                            {dateIntervalErrors.startDate.message}
+                        </span>
+                    )}
+                    {dateIntervalErrors.endDate?.message && (
+                        <span className="error-message">
+                            {dateIntervalErrors.endDate.message}
+                        </span>
+                    )}
                 </Box>
 
                 <Box
