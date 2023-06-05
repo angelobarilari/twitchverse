@@ -81,10 +81,10 @@ class Bot(commands.Bot):
     def __init__(self):
         super().__init__(
             # Put your OAuth Password Token here. You can obtain one in https://twitchapps.com/tmi/
-            token="oauth:a4ejtv3ffenjar5m8p96rp9rqy7tyw",
+            token="",
             prefix="!",
             # Set channels to track here
-            initial_channels=["darionpk", "monocat_neko"],
+            initial_channels=["darionpk", ""],
         )
 
         self.db_connection = None
