@@ -81,10 +81,10 @@ class Bot(commands.Bot):
     def __init__(self):
         super().__init__(
             # Put your OAuth Password Token here. You can obtain one in https://twitchapps.com/tmi/
-            token="oauth:a4ejtv3ffenjar5m8p96rp9rqy7tyw",
+            token="oauth:n8te1ql5ebcq3ai2hok5rivyxoffkz",
             prefix="!",
             # Set channels to track here
-            initial_channels=["darionpk", "monocat_neko"],
+            initial_channels=["reppukk"],
         )
 
         self.db_connection = None
@@ -100,6 +100,7 @@ class Bot(commands.Bot):
         # await channel.send('/me entrou')
 
     async def event_invite(self, invitation):
+        print("canal invitado")
         await invitation.accept()
 
     async def event_message(self, message):
@@ -125,3 +126,14 @@ class Bot(commands.Bot):
 
 bot = Bot()
 bot.run()
+
+# https://id.twitch.tv/oauth2/authorize
+#     ?response_type=code
+#     &client_id=n0ei14vo1xxr4pkzngnlw1t82uoxb2
+#     &redirect_uri=http://localhost:8000/api/oauth/callback/
+
+# https://id.twitch.tv/oauth2/authorize
+#     ?response_type=token
+#     &client_id=n0ei14vo1xxr4pkzngnlw1t82uoxb2
+#     &redirect_uri=http://localhost:8000/api/oauth/callback/
+#     &scope=chat%3Aread

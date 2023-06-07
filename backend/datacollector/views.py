@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .serializers import MessageSerializer
 from datacollector.models import Message
 from rest_framework import generics
@@ -6,8 +5,13 @@ from django.shortcuts import get_list_or_404
 from rest_framework.views import APIView, Request, Response, status
 from datetime import datetime
 from django.db.models import Q
-import pytz
+from urllib.parse import urlencode
 
+import os
+import pytz
+import requests
+
+from django.shortcuts import redirect
 
 class MessageView(generics.ListAPIView):
     serializer_class = MessageSerializer
@@ -52,3 +56,48 @@ class MessageListByDateView(APIView):
         serializer = MessageSerializer(messages, many=True)
 
         return Response(serializer.data, status.HTTP_200_OK)
+
+class TwitchTokenAPIView(APIView):
+    def get(self, request):
+        token_url = 'https://id.twitch.tv/oauth2/token'
+
+        data = {
+            'client_id': os.getenv("TWITCH_CLIENT_ID"),
+            'client_secret': os.getenv("TWITCH_CLIENT_SECRET"),
+            'code': request.query_params.get('code'),
+            'grant_type': 'authorization_code',
+            'redirect_uri': os.getenv("REDIRECT_URI"),
+        }
+        
+        response = requests.post(token_url, data=data)
+
+        if response.status_code == 200:
+            token_data = response.json()
+            access_token = token_data.get('access_token')
+            refresh_token = token_data.get('refresh_token')
+
+            return Response({
+                'success': True,
+                'access_token': access_token,
+                'refresh_token': refresh_token
+                })
+        else:
+            return Response({
+                'success': False, 
+                'error': 'Failed to obtain token'
+            })
+
+class TwitchAuthorizationAPIView(APIView):
+    def get(self, request):
+        twitch_authorize_url = 'https://id.twitch.tv/oauth2/authorize'
+
+        params = {
+            'response_type': 'code',
+            'client_id': os.getenv("TWITCH_CLIENT_ID"),
+            'redirect_uri': os.getenv("REDIRECT_URI"),
+            'scope': 'chat:read',
+        }
+
+        authorize_url = f'{twitch_authorize_url}?{urlencode(params)}'
+
+        return redirect(authorize_url)
