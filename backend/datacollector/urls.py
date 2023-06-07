@@ -12,6 +12,6 @@ urlpatterns = [
         "messages/<start_time>/<end_time>/",
         views.MessageListByDateView.as_view(),
     ),
-    path('twitch/authorize/', views.TwitchAuthorizationAPIView.as_view()),
-    path('dashboard/', views.TwitchTokenAPIView.as_view()),
+    path("twitch/authorize/", views.TwitchAuthorizationAPIView.as_view()),
+    path("dashboard/", views.TwitchTokenAPIView.as_view()),
 ]

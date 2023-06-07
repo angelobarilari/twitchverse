@@ -25,6 +25,7 @@ async def verse_generation(text):
 
     return verse.choices[0].message.content
 
+
 async def answer_question(text):
     openai.api_key = os.getenv("OPENAPI_KEY")
 
@@ -39,6 +40,7 @@ async def answer_question(text):
     )
 
     return verse.choices[0].message.content
+
 
 # Database connection
 async def db_connection():
@@ -91,8 +93,8 @@ class Bot(commands.Bot):
 
     async def event_ready(self):
         # self.db_connection = await db_connection()
-        print(f'Logged in as | {self.nick}')
-        print(f'User id is | {self.user_id}')
+        print(f"Logged in as | {self.nick}")
+        print(f"User id is | {self.user_id}")
         print("bot is running")
 
     async def event_channel_joined(self, channel):
@@ -106,23 +108,24 @@ class Bot(commands.Bot):
     async def event_message(self, message):
         if message.echo:
             return
-        
+
         await self.handle_commands(message)
 
-    @commands.command(name='pergunta')
+    @commands.command(name="pergunta")
     async def cmd_question(self, ctx: Context):
         answer = await answer_question(ctx.message.content)
         print(answer)
         await ctx.send(answer)
-    
-    @commands.command(name='verso')
+
+    @commands.command(name="verso")
     async def generate_verse(self, ctx: Context):
         generated_verse = await verse_generation(ctx.message.content)
 
         await ctx.send(generated_verse)
-    
+
     # async def event_command_error(self, ctx: Context, error: Exception):
     #     await ctx.send(str(error))
+
 
 bot = Bot()
 bot.run()

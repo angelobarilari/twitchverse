@@ -60,12 +60,11 @@ function Home() {
     });
 
     const getMessagesByDateInterval = (formData) => {
-        let { startDate, endDate } = formData
+        let { startDate, endDate } = formData;
 
-        startDate = Math.floor(startDate / 1000)
+        startDate = Math.floor(startDate / 1000);
 
-        if (!endDate)
-            endDate = Math.floor(Date.now() / 1000)
+        if (!endDate) endDate = Math.floor(Date.now() / 1000);
 
         apiUrl
             .get(`${startDate}/${endDate}/`)
@@ -91,7 +90,6 @@ function Home() {
     } = useForm({
         resolver: yupResolver(requestMessagesByDateIntervalSchema),
     });
-
 
     return (
         <>
@@ -122,7 +120,8 @@ function Home() {
                             background="var(--purple-1)"
                             color="var(--white)"
                             hover="var(--purple-2)"
-                            type="submit" >
+                            type="submit"
+                        >
                             Search
                         </Button>
                     </form>
@@ -149,7 +148,8 @@ function Home() {
                             background="var(--purple-1)"
                             color="var(--white)"
                             hover="var(--purple-2)"
-                            type="submit" >
+                            type="submit"
+                        >
                             Search
                         </Button>
                     </form>
@@ -161,31 +161,35 @@ function Home() {
 
                     <form
                         className="date-interval-form"
-                        onSubmit={dateIntervalSubmit(getMessagesByDateInterval)}>
-
+                        onSubmit={dateIntervalSubmit(getMessagesByDateInterval)}
+                    >
                         <div className="input-container">
-                            <label 
+                            <label
                                 className="date-label"
-                                htmlFor="start-time-interval">
+                                htmlFor="start-time-interval"
+                            >
                                 Start time interval:
-                                <input 
+                                <input
                                     className="search-input"
-                                    type="datetime-local" 
-                                    name="start-time-interval" 
-                                    {...dateIntervalRegister("startDate")} />
+                                    type="datetime-local"
+                                    name="start-time-interval"
+                                    {...dateIntervalRegister("startDate")}
+                                />
                             </label>
                         </div>
-                        
+
                         <div className="input-container">
-                            <label 
+                            <label
                                 className="date-label"
-                                htmlFor="end-time-interval">
+                                htmlFor="end-time-interval"
+                            >
                                 End time interval:
-                                <input 
+                                <input
                                     className="search-input"
-                                    type="datetime-local" 
-                                    name="end-time-interval" 
-                                    {...dateIntervalRegister("endDate")} />
+                                    type="datetime-local"
+                                    name="end-time-interval"
+                                    {...dateIntervalRegister("endDate")}
+                                />
                             </label>
                         </div>
 
@@ -197,7 +201,8 @@ function Home() {
                             background="var(--purple-1)"
                             color="var(--white)"
                             hover="var(--purple-2)"
-                            type="submit" >
+                            type="submit"
+                        >
                             Search
                         </Button>
                     </form>
