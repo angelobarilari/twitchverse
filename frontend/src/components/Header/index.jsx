@@ -6,7 +6,7 @@ function Header({ children, ...rest }) {
         <StyledHeader {...rest}>
             <div id="header-container">
                 <Link to="/" id="logo-container">
-                    <h1 id="logo">Twitch</h1>
+                    <h1 id="logo">Twitchverse</h1>
                 </Link>
             </div>
         </StyledHeader>

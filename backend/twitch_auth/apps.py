@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DatacollectorConfig(AppConfig):
+class TwitchAuthConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "datacollector"
+    name = "twitch_auth"

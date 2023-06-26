@@ -1,7 +1,5 @@
-from datacollector.models import Message
 from datetime import datetime, timedelta
 from .helpers import (
-    generate_messages,
     get_brazilian_time,
     generate_random_string,
     generate_random_hex_color,
@@ -48,30 +46,6 @@ class TestRandomHexColorGeneration(unittest.TestCase):
         self.assertNotEqual(
             generate_random_hex_color(), generate_random_hex_color()
         )
-
-
-class TestMessageGeneration(unittest.TestCase):
-    def test_generate_messages(self):
-        messages_amount = 10
-        string_length = 20
-        generated_messages = generate_messages(messages_amount, string_length)
-
-        self.assertEqual(len(generated_messages), messages_amount)
-
-        # Loop through each generated message and
-        # ensure that each attribute has the expected types and lengths
-        for message in generated_messages:
-            self.assertIsInstance(message, Message)
-            self.assertIsInstance(message.author, str)
-            self.assertIsInstance(message.channel, str)
-            self.assertIsInstance(message.color, str)
-            self.assertIsInstance(message.original_message, str)
-            self.assertIsInstance(message.generated_verse, str)
-            self.assertIsInstance(message.created_at, datetime)
-            self.assertEqual(len(message.author), string_length)
-            self.assertEqual(len(message.channel), string_length)
-            self.assertEqual(len(message.original_message), string_length)
-            self.assertEqual(len(message.generated_verse), string_length)
 
 
 class TestGetBrazilianTime(unittest.TestCase):
