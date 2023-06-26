@@ -1,0 +1,54 @@
+.dashboard-page {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0px 100px 0px 0px;
+
+    min-width: 500px;
+}
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+
+    min-height: 250px;
+    
+    padding: 10px 0px 10px 0px;
+    background-color: var(--grey-3);
+}
+
+.sign-text-box {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+.twitch-conn-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.twitch-logo {
+    margin: 0px 5px;
+}
+
+hr {
+    width: 100%;
+}
+
+.terms-text-box {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    width: 90%;
+}
+
+.terms-text-box > small > a {
+    margin-left: 5px;
+}
+

@@ -17,7 +17,7 @@ services:
       sh -c "python manage.py makemigrations --noinput &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000 &
-             python bot.py"
+             python bot/bot.py"
 
   # frontend:
   #   build:
