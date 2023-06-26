@@ -5,9 +5,6 @@ import uuid
 
 from datetime import datetime, timedelta, timezone
 
-# Create your models here.
-
-
 class Token(models.Model):
     id = models.UUIDField(
         primary_key=True,
