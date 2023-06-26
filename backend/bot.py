@@ -1,5 +1,6 @@
 import pytz
 from twitchio.ext import commands
+from twitchio.ext.commands import Context
 import asyncpg
 import openai
 import os
@@ -25,13 +26,29 @@ async def verse_generation(text):
     return verse.choices[0].message.content
 
 
+async def answer_question(text):
+    openai.api_key = os.getenv("OPENAPI_KEY")
+
+    verse = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "user",
+                "content": f"Responda a seguinte pergunta com um texto de NO MÁXIMO 300 carácteres: {text}",
+            }
+        ],
+    )
+
+    return verse.choices[0].message.content
+
+
 # Database connection
 async def db_connection():
     connection = await asyncpg.connect(
         user="postgres",
         password="1234",
         database="twitchbot",
-        host="db",
+        host="localhost",
         port="5432",
     )
 
@@ -66,22 +83,60 @@ class Bot(commands.Bot):
     def __init__(self):
         super().__init__(
             # Put your OAuth Password Token here. You can obtain one in https://twitchapps.com/tmi/
-            token="oauth:kvdw0vtqb5adltv8rg21zwnh51f20r",
+            token="oauth:n8te1ql5ebcq3ai2hok5rivyxoffkz",
             prefix="!",
             # Set channels to track here
-            initial_channels=["darionpk"],
+            initial_channels=["reppukk"],
         )
 
         self.db_connection = None
 
     async def event_ready(self):
-        self.db_connection = await db_connection()
+        # self.db_connection = await db_connection()
+        print(f"Logged in as | {self.nick}")
+        print(f"User id is | {self.user_id}")
         print("bot is running")
 
+    async def event_channel_joined(self, channel):
+        print(f"Bot connected in {channel.name}")
+        # await channel.send('/me entrou')
+
+    async def event_invite(self, invitation):
+        print("canal invitado")
+        await invitation.accept()
+
     async def event_message(self, message):
-        generated_verse = await verse_generation(message.content)
-        await store_message(self.db_connection, message, generated_verse)
+        if message.echo:
+            return
+
+        await self.handle_commands(message)
+
+    @commands.command(name="pergunta")
+    async def cmd_question(self, ctx: Context):
+        answer = await answer_question(ctx.message.content)
+        print(answer)
+        await ctx.send(answer)
+
+    @commands.command(name="verso")
+    async def generate_verse(self, ctx: Context):
+        generated_verse = await verse_generation(ctx.message.content)
+
+        await ctx.send(generated_verse)
+
+    # async def event_command_error(self, ctx: Context, error: Exception):
+    #     await ctx.send(str(error))
 
 
 bot = Bot()
 bot.run()
+
+# https://id.twitch.tv/oauth2/authorize
+#     ?response_type=code
+#     &client_id=n0ei14vo1xxr4pkzngnlw1t82uoxb2
+#     &redirect_uri=http://localhost:8000/api/oauth/callback/
+
+# https://id.twitch.tv/oauth2/authorize
+#     ?response_type=token
+#     &client_id=n0ei14vo1xxr4pkzngnlw1t82uoxb2
+#     &redirect_uri=http://localhost:8000/api/oauth/callback/
+#     &scope=chat%3Aread
