@@ -1,4 +1,5 @@
 from twitchio.ext.commands import command, Context, Bot
+
 # from .commands.commands import cmd_question, generate_verse
 from commands.commands import cmd_question, generate_verse
 
@@ -27,7 +28,7 @@ class Bot(Bot):
         super().__init__(
             # Put your OAuth Password Token here. You can obtain one in https://twitchapps.com/tmi/
             token="oauth:n8te1ql5ebcq3ai2hok5rivyxoffkz",
-            prefix="!"
+            prefix="!",
         )
 
         self.db_connection = None
@@ -40,7 +41,7 @@ class Bot(Bot):
 
         await asyncio.sleep(2)
         await self.join_channels(["reppukk"])
-        
+
     async def event_channel_joined(self, channel):
         print(f"Bot connected in {channel.name}")
 

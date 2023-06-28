@@ -11,6 +11,7 @@ import requests
 
 from bot.bot import twitchverse
 
+
 class TwitchTokenAPIView(APIView):
     async def get(self, request, *args, **kwargs):
         data = {
