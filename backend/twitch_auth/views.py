@@ -1,25 +1,18 @@
 from django.shortcuts import redirect
 
-from rest_framework import generics
 from rest_framework.views import APIView, Response, status
 
 from urllib.parse import urlencode
 
-from users.serializers import UserSerializer
-
 from .serializers import TokenSerializer
-from .models import Token
 
 import os
 import requests
 
+from bot.bot import twitchverse
 
 class TwitchTokenAPIView(APIView):
-    token_url = "https://id.twitch.tv/oauth2/token"
-    channels_url = "https://api.twitch.tv/helix/channels"
-    validate_url = "https://id.twitch.tv/oauth2/validate"
-
-    def get(self, request, *args, **kwargs):
+    async def get(self, request, *args, **kwargs):
         data = {
             "client_id": os.getenv("TWITCH_CLIENT_ID"),
             "client_secret": os.getenv("TWITCH_CLIENT_SECRET"),
@@ -28,9 +21,11 @@ class TwitchTokenAPIView(APIView):
             "redirect_uri": os.getenv("REDIRECT_URI"),
         }
 
-        response = requests.post(self.token_url, data=data)
+        token_response = requests.post(
+            os.getenv("TWITCH_TOKEN_URL"), data=data
+        )
 
-        token_data = response.json()
+        token_data = token_response.json()
 
         user_data = self.get_user_data(token_data["access_token"])
 
@@ -42,34 +37,9 @@ class TwitchTokenAPIView(APIView):
 
         token_serializer.save()
 
-        return Response(token_serializer.data, status.HTTP_201_CREATED)
+        # twitchverse.join_channels([token_data['user']['broadcaster_login']])
 
-    #         if response.status_code == 200:
-    #             return Response(response.json(), status.HTTP_200_OK)
-
-    #             access_token = data.get("access_token")
-    #             refresh_token = data.get("refresh_token")
-
-    #             channel_data = self.get_channel_data(access_token, channels_url)
-
-    #             if channel_data:
-    #                 channel_name = channel_data.get("broadcaster_name")
-
-    #                 return Response(
-    #                     {
-    #                         "success": True,
-    #                         "access_token": access_token,
-    #                         "refresh_token": refresh_token,
-    #                         "channel_name": channel_name,
-    #                     }
-    #                 )
-
-    #         return Response(
-    #             {
-    #                 "success": False,
-    #                 "error": "Failed to obtain token"
-    #             }
-    #         )
+        # return Response(token_serializer.data, status.HTTP_201_CREATED)
 
     def get_user_data(self, access_token, *args, **kwargs):
         headers = {
@@ -77,7 +47,9 @@ class TwitchTokenAPIView(APIView):
             "Client-Id": os.getenv("TWITCH_CLIENT_ID"),
         }
 
-        validate_response = requests.get(self.validate_url, headers=headers)
+        validate_response = requests.get(
+            os.getenv("TWITCH_VALIDATE_URL"), headers=headers
+        )
 
         if validate_response.status_code == 200:
             validate_data = validate_response.json()
@@ -85,15 +57,15 @@ class TwitchTokenAPIView(APIView):
             channels_params = {"broadcaster_id": validate_data.get("user_id")}
 
             channels_response = requests.get(
-                self.channels_url, headers=headers, params=channels_params
+                os.getenv("TWITCH_CHANNELS_URL"),
+                headers=headers,
+                params=channels_params,
             )
 
             if channels_response.status_code == 200:
                 channels_data = channels_response.json()
-                user_channel_data = channels_data.get("data", [])
 
-                if user_channel_data:
-                    return user_channel_data[0]
+                return channels_data.get("data")[0]
 
         return None
 

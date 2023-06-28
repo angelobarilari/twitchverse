@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Token
 
 from users.serializers import UserSerializer
@@ -40,9 +41,7 @@ class TokenSerializer(serializers.ModelSerializer):
             "client_secret": os.getenv("TWITCH_CLIENT_SECRET"),
         }
 
-        response = requests.post(
-            "https://id.twitch.tv/oauth2/token", data=data
-        )
+        response = requests.post(os.getenv("TWITCH_TOKEN_URL"), data=data)
 
         response.raise_for_status()
 

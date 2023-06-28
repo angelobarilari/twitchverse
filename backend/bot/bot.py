@@ -1,8 +1,10 @@
 from twitchio.ext.commands import command, Context, Bot
-import asyncpg
-import dotenv
-
+# from .commands.commands import cmd_question, generate_verse
 from commands.commands import cmd_question, generate_verse
+
+import asyncpg
+import asyncio
+import dotenv
 
 dotenv.load_dotenv()
 
@@ -25,9 +27,7 @@ class Bot(Bot):
         super().__init__(
             # Put your OAuth Password Token here. You can obtain one in https://twitchapps.com/tmi/
             token="oauth:n8te1ql5ebcq3ai2hok5rivyxoffkz",
-            prefix="!",
-            # Set channels to track here
-            initial_channels=["darionpk", "reppukk"],
+            prefix="!"
         )
 
         self.db_connection = None
@@ -38,12 +38,11 @@ class Bot(Bot):
         print(f"User id is | {self.user_id}")
         print("bot is running")
 
+        await asyncio.sleep(2)
+        await self.join_channels(["reppukk"])
+        
     async def event_channel_joined(self, channel):
         print(f"Bot connected in {channel.name}")
-
-    async def event_invite(self, invitation):
-        print("canal invitado")
-        await invitation.accept()
 
     async def event_message(self, message):
         if message.echo:
@@ -60,5 +59,5 @@ class Bot(Bot):
         await generate_verse(ctx)
 
 
-bot = Bot()
-bot.run()
+twitchverse = Bot()
+twitchverse.run()
